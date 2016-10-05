@@ -1,0 +1,28 @@
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.Form1.resources
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.Resources.resources
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.GenerateResource.Cache
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\Interop.MSScriptControl.dll
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\AxInterop.MSScriptControl.dll
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.ResolveComReference.cache
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\bin\Debug\testScriptCalc.exe
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\bin\Debug\testScriptCalc.pdb
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\bin\Debug\testScriptCalc.xml
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\bin\Debug\Interop.MSScriptControl.dll
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\bin\Debug\AxInterop.MSScriptControl.dll
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.exe
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.xml
+C:\Users\Collen\AppData\Local\Temporary Projects\testScriptCalc\obj\x86\Debug\testScriptCalc.pdb
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\Interop.MSScriptControl.dll
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\AxInterop.MSScriptControl.dll
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.ResolveComReference.cache
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.exe
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.xml
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.pdb
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\bin\Debug\testScriptCalc.exe
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\bin\Debug\testScriptCalc.pdb
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\bin\Debug\testScriptCalc.xml
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\bin\Debug\Interop.MSScriptControl.dll
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\bin\Debug\AxInterop.MSScriptControl.dll
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.Form1.resources
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.Resources.resources
+C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.GenerateResource.Cache
