@@ -61,11 +61,7 @@ Public Class Form1
 
     ' Enable/disable the run button based on whether there's text in the input box
     Private Sub txtInput_TextChanged(sender As Object, e As TextChangedEventArgs) Handles txtInput.TextChanged
-        If txtInput.Text.Trim() = "" Then
-            btnRun.Enabled = False
-        Else
-            btnRun.Enabled = True
-        End If
+        btnRun.Enabled = (txtInput.Text.Trim() <> "")
     End Sub
 
     Private Sub btnRun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRun.Click
@@ -73,18 +69,15 @@ Public Class Form1
     End Sub
 
     Private Sub RunScript(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles btnRun.KeyDown, btnClearAll.KeyDown, btnClearIn.KeyDown, btnClearOut.KeyDown, txtInput.KeyDown, Me.KeyDown
-        If txtInput.Text <> "" And e.KeyCode = Keys.F5 Then CallScript()
+        If btnRun.Enabled And e.KeyCode = Keys.F5 Then _
+            CallScript()
     End Sub
 
     ' ------------------------------------ '
 
     ' General function for a yes/no messagebox
     Public Function msg(ByVal message As String) As Boolean
-        If MessageBox.Show(message, "BoinJS", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-            Return True
-        Else
-            Return False
-        End If
+        Return MessageBox.Show(message, "BoinJS", MessageBoxButtons.YesNo) = DialogResult.Yes
     End Function
 
     ' Shows the help dialog
@@ -229,6 +222,9 @@ Public Class Form1
     End Sub
 
     Private Sub ResetStubbornUglyAnnoyingWindowsRichTextBox()
+        ' wow - this hack is actually needed
+        ' txtOutput.ZoomFactor = 1.0 does not work
+
         While txtOutput.ZoomFactor > 1.0
             txtOutput.ZoomFactor -= 0.01
         End While
@@ -349,8 +345,7 @@ Public Class Form1
     Private Sub ofd1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ofd1.FileOk
         If Not ofd1.Title.Contains("Append") Then
             If txtInput.Text.Trim() <> "" Then
-                If MessageBox.Show("Would you like to save the current file first?", "BoinJS", MessageBoxButtons.YesNo) _
-                = Windows.Forms.DialogResult.Yes Then
+                If msg("Would you like to save the current file first?") Then
                     If lblFilePath.Text = lblFilePath.Tag Then
                         sfd1.ShowDialog()
                     Else
@@ -390,7 +385,7 @@ Public Class Form1
             End Using
             SetPath(path)
         Catch
-            MessageBox.Show("Failed to save file.", "BoinJS - Error")
+            MessageBox.Show("Failed to save file to '" & path & "'.", "BoinJS - Error")
         End Try
     End Sub
 
