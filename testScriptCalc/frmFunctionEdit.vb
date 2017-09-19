@@ -1,9 +1,11 @@
 ﻿Imports System.IO
+Imports System.Drawing.Text
 
 Public Class frmFunctionEdit
 
 #Region "Vars"
 
+    ' text from the file
     Dim strFileString As String
 
 #End Region
@@ -11,24 +13,39 @@ Public Class frmFunctionEdit
 #Region "Main"
 
     Private Sub frmFunctionEdit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        ' load the global functions file into the editor if it exists
         If File.Exists(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH) Then
             txtMain.Text = ""
-            Using R As StreamReader = File.OpenText(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH)
-                While R.Peek <> -1
-                    txtMain.Text &= R.ReadLine() & vbCrLf
-                End While
-            End Using
+            Try
+                Using R As StreamReader = File.OpenText(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH)
+                    While R.Peek <> -1
+                        txtMain.Text &= R.ReadLine() & vbCrLf
+                    End While
+                End Using
+
+                ' keep track of what was originally in the file
+                strFileString = txtMain.Text
+            Catch ex As Exception
+
+                ' couldn't open the file
+                MessageBox.Show("Failed to open global functions file with the following exception:" & _
+                    Environment.NewLine & ex.Message)
+            End Try
         End If
-        strFileString = txtMain.Text
     End Sub
 
     Private Sub txtMain_PaintLine(sender As Object, e As FastColoredTextBoxNS.PaintLineEventArgs) Handles txtMain.PaintLine
-        e.Graphics.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias ' Smoooooth
+        e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias ' Smoooooth
     End Sub
 
     Private Sub frmFunctionEdit_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+
+        ' if changes were made
         If txtMain.Text <> strFileString Then
-            If Form1.msg("Close without saving?") = False Then
+
+            ' let the user know before closing
+            If Not Form1.msg("Close without saving?") Then
                 e.Cancel = True
             End If
         End If
@@ -67,11 +84,24 @@ Public Class frmFunctionEdit
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        Using W As StreamWriter = File.CreateText(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH)
-            W.Write(txtMain.Text)
-        End Using
-        Form1.AddGlobFunctions()
-        strFileString = txtMain.Text
+
+        ' attempt save to our designated location
+        Try
+            Using W As StreamWriter = File.CreateText(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH)
+                W.Write(txtMain.Text)
+            End Using
+
+            ' load the file into the interpeter
+            Form1.AddGlobFunctions()
+
+            ' set our new saved file text
+            strFileString = txtMain.Text
+        Catch ex As Exception
+
+            ' couldn't save the file
+            MessageBox.Show("Failed to save global functions file with the following exception:" & _
+                Environment.NewLine & ex.Message)
+        End Try
     End Sub
 
 #End Region
