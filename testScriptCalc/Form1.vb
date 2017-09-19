@@ -7,7 +7,7 @@ Public Class Form1
 
     ' Constants
     Public Const STR_GLOBAL_FUNCTIONS_FILEPATH As String = "globalfunctions.js"
-    Public Const STR_VERSION_NUM As String = "2.0.1"
+    Public Const STR_VERSION_NUM As String = "2.0.3"
 
     ' Colors for Output
     Dim clrOutput = Color.LightGray
