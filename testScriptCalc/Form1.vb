@@ -80,15 +80,6 @@ Public Class Form1
         Return MessageBox.Show(message, "BoinJS", MessageBoxButtons.YesNo) = DialogResult.Yes
     End Function
 
-    ' Shows the help dialog
-    Public Sub ShowHelp(Optional ByVal opt As String = "default")
-        If opt = "default" Then
-            MessageBox.Show("Help doesn't exist yet.")
-        ElseIf opt = "globalfunctions" Then
-            MessageBox.Show("Global functions help doesn't exist yet.")
-        End If
-    End Sub
-
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClearAll.Click, ClearAllToolStripMenuItem.Click
         If msg("Are you sure you want to clear all text fields?") Then
             txtInput.Text = ""
@@ -235,10 +226,6 @@ Public Class Form1
 
     Private Sub ResetZoomToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ResetZoomToolStripMenuItem2.Click
         ResetStubbornUglyAnnoyingWindowsRichTextBox()
-    End Sub
-
-    Private Sub HelpToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HelpToolStripMenuItem.Click
-        ShowHelp()
     End Sub
 
 #End Region

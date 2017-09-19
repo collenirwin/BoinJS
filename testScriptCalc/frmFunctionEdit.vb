@@ -74,10 +74,6 @@ Public Class frmFunctionEdit
         strFileString = txtMain.Text
     End Sub
 
-    Private Sub HelpToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HelpToolStripMenuItem.Click
-        Form1.ShowHelp("globalfunctions")
-    End Sub
-
 #End Region
    
 End Class

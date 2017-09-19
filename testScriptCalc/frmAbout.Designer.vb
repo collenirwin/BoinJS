@@ -29,14 +29,13 @@ Partial Class frmAbout
         Me.lblAuthor = New System.Windows.Forms.Label()
         Me.lblVersion = New System.Windows.Forms.Label()
         Me.pctIcon = New System.Windows.Forms.PictureBox()
-        Me.btnHelp = New System.Windows.Forms.Button()
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(330, 156)
+        Me.btnClose.Location = New System.Drawing.Point(330, 138)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 0
@@ -98,22 +97,11 @@ Partial Class frmAbout
         Me.pctIcon.TabIndex = 5
         Me.pctIcon.TabStop = False
         '
-        'btnHelp
-        '
-        Me.btnHelp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnHelp.Location = New System.Drawing.Point(330, 127)
-        Me.btnHelp.Name = "btnHelp"
-        Me.btnHelp.Size = New System.Drawing.Size(75, 23)
-        Me.btnHelp.TabIndex = 6
-        Me.btnHelp.Text = "Help"
-        Me.btnHelp.UseVisualStyleBackColor = True
-        '
         'frmAbout
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(417, 191)
-        Me.Controls.Add(Me.btnHelp)
+        Me.ClientSize = New System.Drawing.Size(417, 173)
         Me.Controls.Add(Me.pctIcon)
         Me.Controls.Add(Me.lblVersion)
         Me.Controls.Add(Me.lblAuthor)
@@ -126,6 +114,7 @@ Partial Class frmAbout
         Me.Name = "frmAbout"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "BoinJS - About"
+        Me.TopMost = True
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -137,5 +126,4 @@ Partial Class frmAbout
     Friend WithEvents lblAuthor As System.Windows.Forms.Label
     Friend WithEvents lblVersion As System.Windows.Forms.Label
     Friend WithEvents pctIcon As System.Windows.Forms.PictureBox
-    Friend WithEvents btnHelp As System.Windows.Forms.Button
 End Class
