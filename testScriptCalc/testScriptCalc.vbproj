@@ -83,16 +83,16 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAbout.Designer.vb">
-      <DependentUpon>frmAbout.vb</DependentUpon>
+    <Compile Include="AboutForm.Designer.vb">
+      <DependentUpon>AboutForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAbout.vb">
+    <Compile Include="AboutForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFunctionEdit.Designer.vb">
-      <DependentUpon>frmFunctionEdit.vb</DependentUpon>
+    <Compile Include="FunctionEditForm.Designer.vb">
+      <DependentUpon>FunctionEditForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmFunctionEdit.vb">
+    <Compile Include="FunctionEditForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -115,11 +115,11 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAbout.resx">
-      <DependentUpon>frmAbout.vb</DependentUpon>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmFunctionEdit.resx">
-      <DependentUpon>frmFunctionEdit.vb</DependentUpon>
+    <EmbeddedResource Include="FunctionEditForm.resx">
+      <DependentUpon>FunctionEditForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

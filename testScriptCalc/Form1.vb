@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Drawing.Text
+Imports System.IO
 Imports FastColoredTextBoxNS
 
 Public Class Form1
@@ -6,25 +7,19 @@ Public Class Form1
 #Region "Vars"
 
     ' Constants
-    Public Const STR_GLOBAL_FUNCTIONS_FILEPATH As String = "globalfunctions.js"
-    Public Const STR_VERSION_NUM As String = "2.0.3"
+    Public Const GlobalFunctionsPath As String = "globalfunctions.js"
+    Public Const VersionNumber As String = "2.0.3"
 
     ' Colors for Output
-    Dim clrOutput = Color.LightGray
-    Dim clrOutBack = Color.FromArgb(255, 60, 60, 60)
-    Dim clrPassed = Color.LightBlue
-    Dim clrError = Color.LightCoral
-    Dim clrDefaultBack = Color.FromArgb(255, 45, 45, 45)
+    Private ReadOnly _outputColor = Color.LightGray
+    Private ReadOnly _outputBackColor = Color.FromArgb(255, 60, 60, 60)
+    Private ReadOnly _passedColor = Color.LightBlue
+    Private ReadOnly _errorColor = Color.LightCoral
+    Private ReadOnly _defaultBackColor = Color.FromArgb(255, 45, 45, 45)
 
-    ' Line Number for Output
-    Dim lineNum As Integer = 0
-
-    ' Output Number
-    Dim intOutputNumber As UInt32 = 0
-
-    ' Settings Bools
-    Dim bStarted As Boolean = False
-    Dim bShowOutputNum As Boolean = False
+    Private _outputNumber As UInteger = 0
+    Private _started As Boolean = False
+    Private _showOutputNumber As Boolean = False
 
 #End Region
 
@@ -34,23 +29,23 @@ Public Class Form1
         Try
             chkTopmost.Checked = My.Settings.Topmost
             tsiTopmost.Checked = My.Settings.Topmost
-            Me.TopMost = My.Settings.Topmost
+            TopMost = My.Settings.Topmost
 
             ShowOutputNumberToolStripMenuItem.Checked = My.Settings.ShowOutputNum
-            bShowOutputNum = My.Settings.ShowOutputNum
+            _showOutputNumber = My.Settings.ShowOutputNum
 
             AddGlobFunctions()
 
-            bStarted = True
+            _started = True
         Catch
             MessageBox.Show("Cannot find settings file or settings file is corrupt. Some settings may be off.", "BoinJS")
         End Try
     End Sub
 
-    Private Sub Form1_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         txtInput.Zoom = 100
         txtOutput.ZoomFactor = 1.0F
-        If txtInput.Text = "" Then btnRun.Enabled = False
+        btnRun.Enabled = txtInput.Text.Trim() <> ""
         txtInput.Focus()
         txtInput.SelectAll()
     End Sub
@@ -59,29 +54,31 @@ Public Class Form1
 
 #Region "General UI Control Events and Supporting Functions"
 
-    ' Enable/disable the run button based on whether there's text in the input box
     Private Sub txtInput_TextChanged(sender As Object, e As TextChangedEventArgs) Handles txtInput.TextChanged
-        btnRun.Enabled = (txtInput.Text.Trim() <> "")
+        ' Enable/disable the run button based on whether there's text in the input box
+        btnRun.Enabled = txtInput.Text.Trim() <> ""
     End Sub
 
-    Private Sub btnRun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRun.Click
-        CallScript()
+    Private Sub btnRun_Click(sender As Object, e As EventArgs) Handles btnRun.Click
+        RunScript()
     End Sub
 
-    Private Sub RunScript(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles btnRun.KeyDown, btnClearAll.KeyDown, btnClearIn.KeyDown, btnClearOut.KeyDown, txtInput.KeyDown, Me.KeyDown
+    Private Sub RunScript(sender As Object, e As KeyEventArgs) Handles btnRun.KeyDown, btnClearAll.KeyDown, btnClearIn.KeyDown, btnClearOut.KeyDown, txtInput.KeyDown, Me.KeyDown
         If btnRun.Enabled And e.KeyCode = Keys.F5 Then _
-            CallScript()
+            RunScript()
     End Sub
 
-    ' ------------------------------------ '
-
-    ' General function for a yes/no messagebox
-    Public Function msg(ByVal message As String) As Boolean
+    ''' <summary>
+    ''' Prompts the user with a Yes/No messagebox
+    ''' </summary>
+    ''' <param name="message">Message to display</param>
+    ''' <returns>True if the user clicked Yes</returns>
+    Public Function PromptYesOrNo(message As String) As Boolean
         Return MessageBox.Show(message, "BoinJS", MessageBoxButtons.YesNo) = DialogResult.Yes
     End Function
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClearAll.Click, ClearAllToolStripMenuItem.Click
-        If msg("Are you sure you want to clear all text fields?") Then
+        If PromptYesOrNo("Are you sure you want to clear all text fields?") Then
             txtInput.Text = ""
             txtOutput.Text = ""
             txtInput.Focus()
@@ -89,41 +86,36 @@ Public Class Form1
     End Sub
 
     Private Sub btnClearOut_Click(sender As Object, e As EventArgs) Handles btnClearOut.Click, ClearOutputToolStripMenuItem.Click, ToolStripMenuItem3.Click
-        If msg("Are you sure you want to clear the output field?") Then
+        If PromptYesOrNo("Are you sure you want to clear the output field?") Then
             txtOutput.Text = ""
             txtInput.Focus()
         End If
     End Sub
 
     Private Sub btnClearIn_Click(sender As Object, e As EventArgs) Handles btnClearIn.Click, ClearInputToolStripMenuItem.Click, ClearToolStripMenuItem.Click
-        If msg("Are you sure you want to clear the input field?") Then
+        If PromptYesOrNo("Are you sure you want to clear the input field?") Then
             txtInput.Text = ""
             txtInput.Focus()
         End If
     End Sub
 
-    ' ------------------------------------ '
-
-    ' Toggling the topmost setting
     Private Sub chkTopmost_CheckedChanged(sender As Object, e As EventArgs) Handles chkTopmost.CheckedChanged
-        If bStarted Then
+        If _started Then
             tsiTopmost.Checked = chkTopmost.Checked
             My.Settings.Topmost = chkTopmost.Checked
-            Me.TopMost = chkTopmost.Checked
+            TopMost = chkTopmost.Checked
         End If
     End Sub
 
-    ' ------------------------------------ '
-
-    ' Draws the line between panels in the splitcontainer
     Private Sub spltContainer_Paint(sender As Object, e As PaintEventArgs) Handles spltContainer.Paint
+        ' Draws the line between panels in the splitcontainer
         Dim s As SplitContainer = sender
         e.Graphics.FillRectangle(Brushes.Silver, s.SplitterRectangle.X, s.SplitterDistance, s.SplitterRectangle.Width, s.SplitterWidth)
     End Sub
 
-    ' Super smooth text rendering!
     Private Sub txtInput_PaintLine(sender As Object, e As PaintLineEventArgs) Handles txtInput.PaintLine
-        e.Graphics.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+        ' Super smooth text rendering!
+        e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias
     End Sub
 
 #End Region
@@ -131,7 +123,7 @@ Public Class Form1
 #Region "ToolStrip/MenuStrip Item Events"
 
     Private Sub tsiTopmost_Click(sender As Object, e As EventArgs) Handles tsiTopmost.Click
-        If bStarted Then
+        If _started Then
             chkTopmost.Checked = tsiTopmost.Checked
         End If
     End Sub
@@ -145,7 +137,7 @@ Public Class Form1
     End Sub
 
     Private Sub GlobalFunctionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GlobalFunctionsToolStripMenuItem.Click
-        frmFunctionEdit.Show()
+        FunctionEditForm.Show()
     End Sub
 
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
@@ -184,14 +176,14 @@ Public Class Form1
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        frmAbout.Show()
+        AboutForm.Show()
     End Sub
 
     ' Toggles ShowOutputNum setting
     Private Sub ShowOutputNumberToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ShowOutputNumberToolStripMenuItem.Click
-        If bStarted Then
+        If _started Then
             My.Settings.ShowOutputNum = ShowOutputNumberToolStripMenuItem.Checked
-            bShowOutputNum = ShowOutputNumberToolStripMenuItem.Checked
+            _showOutputNumber = ShowOutputNumberToolStripMenuItem.Checked
         End If
     End Sub
 
@@ -215,7 +207,6 @@ Public Class Form1
     Private Sub ResetStubbornUglyAnnoyingWindowsRichTextBox()
         ' wow - this hack is actually needed
         ' txtOutput.ZoomFactor = 1.0 does not work
-
         While txtOutput.ZoomFactor > 1.0
             txtOutput.ZoomFactor -= 0.01
         End While
@@ -233,51 +224,51 @@ Public Class Form1
 #Region "Script Evaluation"
 
     Private Sub ResetScriptControl()
-        scrpt1.Reset() ' Clear all code from the script control
+        scriptControl.Reset() ' Clear all code from the script control
         AddGlobFunctions() ' Add in the global functions
     End Sub
 
-    ' Prints line num for output
-    Private Function GetLineNum() As String
-        Return " Line " & lineNum & ": "
+    Private Function GetLineNumberOutput(line As Integer) As String
+        Return " Line " & line & ": "
     End Function
 
-    ' Adds the global functions that are defined by the user in frmFunctionsEdit to the script control
+    ''' <summary>
+    ''' Adds the global functions that are defined by the user in
+    ''' <see cref="GlobalFunctionsPath"/> to the script control
+    ''' </summary>
     Public Sub AddGlobFunctions()
-        If File.Exists(STR_GLOBAL_FUNCTIONS_FILEPATH) Then
+        If File.Exists(GlobalFunctionsPath) Then
             Dim s As String = ""
-            Using R As StreamReader = File.OpenText(STR_GLOBAL_FUNCTIONS_FILEPATH)
+            Using R As StreamReader = File.OpenText(GlobalFunctionsPath)
                 While R.Peek <> -1
-                    s &= R.ReadLine() & vbCrLf
+                    s &= R.ReadLine() & Environment.NewLine
                 End While
             End Using
             Try
-                scrpt1.AddCode(s)
+                scriptControl.AddCode(s)
             Catch ex As Exception
                 MessageBox.Show("Script errored out with the following message: " & ex.Message, "BoinJS - Error")
             End Try
-
         End If
     End Sub
 
     Private Sub PrintOutputNumber()
+        AppendOutput("Output", Color.LightGray, _outputBackColor)
+        Dim output As String = "["
 
-        AppendOutput("Output", Color.LightGray, clrOutBack)
-
-        Dim s As String = "["
-
-        If intOutputNumber = UInt32.MaxValue - 1 Then
-            intOutputNumber = 0
-            s &= "reset - "
+        ' wow - we're really paranoid here
+        If _outputNumber = UInteger.MaxValue - 1 Then
+            _outputNumber = 0
+            output &= "reset - "
         End If
 
-        If bShowOutputNum Then
-            intOutputNumber += 1
-            s &= intOutputNumber & "]"
-            AppendOutput(s, Color.Wheat, clrOutBack)
+        If _showOutputNumber Then
+            _outputNumber += 1
+            output &= _outputNumber & "]"
+            AppendOutput(output, Color.Wheat, _outputBackColor)
         End If
 
-        AppendOutput(":" & vbCrLf, Color.LightGray, clrOutBack)
+        AppendOutput(":" & Environment.NewLine, Color.LightGray, _outputBackColor)
     End Sub
 
     Private Sub AppendOutput(text As String, color As Color, backColor As Color)
@@ -289,40 +280,34 @@ Public Class Form1
         txtOutput.AppendText(text)
     End Sub
 
-    Private Sub CallScript()
-        lineNum = 0
+    Private Sub AppendOutputLine(text As String, color As Color, backColor As Color)
+        AppendOutput(text & Environment.NewLine, color, backColor)
+    End Sub
+
+    Private Sub RunScript()
+        Dim _lineNumber As Integer
         Try
             PrintOutputNumber()
+            Dim isCode = False
 
-            Dim bIsCode As Boolean = False
-
-            For x = 0 To txtInput.Lines.Count - 1
-                Dim line As String = Trim(txtInput.Lines(x))
-                lineNum += 1
-                If line <> "" And line.StartsWith("//") = False Then
-                    bIsCode = True
-                    Dim out As String = scrpt1.Eval(line)
-                    If out = "" Then
-                        out = "null"
-                    End If
-                    AppendOutput(GetLineNum(), clrOutput, clrDefaultBack)
-                    AppendOutput(out & vbCrLf, clrPassed, clrDefaultBack)
+            For Each line In txtInput.Lines
+                line = line.Trim()
+                _lineNumber += 1
+                If line <> "" And Not line.StartsWith("//") Then
+                    Dim output = scriptControl.Eval(line)
+                    AppendOutput(GetLineNumberOutput(_lineNumber), _outputColor, _defaultBackColor)
+                    AppendOutputLine(output, _passedColor, _defaultBackColor)
                 End If
             Next
-            If bIsCode = False Then
-                AppendOutput(" null" & vbCrLf, clrPassed, clrDefaultBack)
-            End If
-
         Catch ex As Exception
-            AppendOutput(GetLineNum(), clrOutput, clrDefaultBack)
-            AppendOutput(ex.Message & vbCrLf, Color.LightCoral, clrDefaultBack)
+            AppendOutput(GetLineNumberOutput(_lineNumber), _outputColor, _defaultBackColor)
+            AppendOutputLine(ex.Message, Color.LightCoral, _defaultBackColor)
         End Try
 
-        scrpt1.Reset()
-        AddGlobFunctions()
-
+        ResetScriptControl()
         txtOutput.SelectionStart = txtOutput.Text.Count - 1
         txtOutput.ScrollToCaret()
+        txtInput.Focus()
     End Sub
 
 #End Region
@@ -332,7 +317,7 @@ Public Class Form1
     Private Sub ofd1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ofd1.FileOk
         If Not ofd1.Title.Contains("Append") Then
             If txtInput.Text.Trim() <> "" Then
-                If msg("Would you like to save the current file first?") Then
+                If PromptYesOrNo("Would you like to save the current file first?") Then
                     If lblFilePath.Text = lblFilePath.Tag Then
                         sfd1.ShowDialog()
                     Else
@@ -342,7 +327,7 @@ Public Class Form1
             End If
             txtInput.Text = ""
         Else
-            txtInput.Text &= vbCrLf
+            txtInput.Text &= Environment.NewLine
         End If
 
         Dim path As String = ofd1.FileName
@@ -350,18 +335,18 @@ Public Class Form1
             Try
                 Using R As StreamReader = File.OpenText(path)
                     While R.Peek <> -1
-                        txtInput.Text &= R.ReadLine() & vbCrLf
+                        txtInput.Text &= R.ReadLine() & Environment.NewLine
                     End While
                 End Using
                 SetPath(path)
             Catch
-                MessageBox.Show("Failed to open '" & path & "'.", "BoinJS - Error")
+                MessageBox.Show($"Failed to open '{path}'.", "BoinJS - Error")
             End Try
         End If
     End Sub
 
     Private Sub SetPath(path As String)
-        Me.Text = Me.Tag & " - " & path
+        Text = $"{Tag} - {path}"
         lblFilePath.Text = path
     End Sub
 

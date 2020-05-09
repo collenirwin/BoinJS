@@ -26,3 +26,24 @@ C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptC
 C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.Form1.resources
 C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.Resources.resources
 C:\Users\Collen\documents\visual studio 2010\Projects\testScriptCalc\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.GenerateResource.Cache
+E:\git\BoinJS\testScriptCalc\bin\Debug\testScriptCalc.exe.config
+E:\git\BoinJS\testScriptCalc\bin\Debug\testScriptCalc.exe
+E:\git\BoinJS\testScriptCalc\bin\Debug\testScriptCalc.pdb
+E:\git\BoinJS\testScriptCalc\bin\Debug\testScriptCalc.xml
+E:\git\BoinJS\testScriptCalc\bin\Debug\FastColoredTextBox.dll
+E:\git\BoinJS\testScriptCalc\bin\Debug\Interop.MSScriptControl.dll
+E:\git\BoinJS\testScriptCalc\bin\Debug\AxInterop.MSScriptControl.dll
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.vbprojAssemblyReference.cache
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\Interop.MSScriptControl.dll
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\AxInterop.MSScriptControl.dll
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.ResolveComReference.cache
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.Form1.resources
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.Resources.resources
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.GenerateResource.cache
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.CoreCompileInputs.cache
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.vbproj.CopyComplete
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.exe
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.xml
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.pdb
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.AboutForm.resources
+E:\git\BoinJS\testScriptCalc\obj\x86\Debug\testScriptCalc.FunctionEditForm.resources

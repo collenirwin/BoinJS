@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Drawing.Text
 
-Public Class frmFunctionEdit
+Public Class FunctionEditForm
 
 #Region "Vars"
 
@@ -15,24 +15,17 @@ Public Class frmFunctionEdit
     Private Sub frmFunctionEdit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' load the global functions file into the editor if it exists
-        If File.Exists(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH) Then
-            txtMain.Text = ""
+        If File.Exists(Form1.GlobalFunctionsPath) Then
             Try
-                Using R As StreamReader = File.OpenText(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH)
-                    While R.Peek <> -1
-                        txtMain.Text &= R.ReadLine() & vbCrLf
-                    End While
-                End Using
-
-                ' keep track of what was originally in the file
-                strFileString = txtMain.Text
+                txtMain.Text = File.ReadAllText(Form1.GlobalFunctionsPath)
             Catch ex As Exception
-
-                ' couldn't open the file
-                MessageBox.Show("Failed to open global functions file with the following exception:" & _
+                MessageBox.Show("Failed to open global functions file with the following exception:" &
                     Environment.NewLine & ex.Message)
             End Try
         End If
+
+        ' keep track of what was originally in the file
+        strFileString = txtMain.Text
     End Sub
 
     Private Sub txtMain_PaintLine(sender As Object, e As FastColoredTextBoxNS.PaintLineEventArgs) Handles txtMain.PaintLine
@@ -45,7 +38,7 @@ Public Class frmFunctionEdit
         If txtMain.Text <> strFileString Then
 
             ' let the user know before closing
-            If Not Form1.msg("Close without saving?") Then
+            If Not Form1.PromptYesOrNo("Close without saving?") Then
                 e.Cancel = True
             End If
         End If
@@ -87,7 +80,7 @@ Public Class frmFunctionEdit
 
         ' attempt save to our designated location
         Try
-            Using W As StreamWriter = File.CreateText(Form1.STR_GLOBAL_FUNCTIONS_FILEPATH)
+            Using W As StreamWriter = File.CreateText(Form1.GlobalFunctionsPath)
                 W.Write(txtMain.Text)
             End Using
 
@@ -99,11 +92,11 @@ Public Class frmFunctionEdit
         Catch ex As Exception
 
             ' couldn't save the file
-            MessageBox.Show("Failed to save global functions file with the following exception:" & _
+            MessageBox.Show("Failed to save global functions file with the following exception:" &
                 Environment.NewLine & ex.Message)
         End Try
     End Sub
 
 #End Region
-   
+
 End Class

@@ -1,10 +1,10 @@
-﻿Public Class frmAbout
+﻿Public Class AboutForm
 
     Private Sub frmAbout_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        lblVersion.Text &= Form1.STR_VERSION_NUM
+        lblVersion.Text &= Form1.VersionNumber
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Me.Close()
+        Close()
     End Sub
 End Class

@@ -49,7 +49,7 @@ Partial Class Form1
         Me.ShowOutputNumberToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsiTopmost = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.scrpt1 = New AxMSScriptControl.AxScriptControl()
+        Me.scriptControl = New AxMSScriptControl.AxScriptControl()
         Me.cmsInput = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -82,7 +82,7 @@ Partial Class Form1
         Me.sfd1 = New System.Windows.Forms.SaveFileDialog()
         Me.lblFilePath = New System.Windows.Forms.Label()
         Me.msMain.SuspendLayout()
-        CType(Me.scrpt1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.scriptControl, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.cmsInput.SuspendLayout()
         CType(Me.spltContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.spltContainer.Panel1.SuspendLayout()
@@ -264,14 +264,14 @@ Partial Class Form1
         '
         'scrpt1
         '
-        Me.scrpt1.Enabled = True
-        Me.scrpt1.Location = New System.Drawing.Point(249, -2)
-        Me.scrpt1.Name = "scrpt1"
-        Me.scrpt1.OcxState = CType(resources.GetObject("scrpt1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.scrpt1.Size = New System.Drawing.Size(38, 38)
-        Me.scrpt1.TabIndex = 2
-        Me.scrpt1.TabStop = False
-        Me.scrpt1.Visible = False
+        Me.scriptControl.Enabled = True
+        Me.scriptControl.Location = New System.Drawing.Point(249, -2)
+        Me.scriptControl.Name = "scrpt1"
+        Me.scriptControl.OcxState = CType(resources.GetObject("scrpt1.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.scriptControl.Size = New System.Drawing.Size(38, 38)
+        Me.scriptControl.TabIndex = 2
+        Me.scriptControl.TabStop = False
+        Me.scriptControl.Visible = False
         '
         'cmsInput
         '
@@ -465,7 +465,7 @@ Partial Class Form1
         '
         Me.pnlMid.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pnlMid.Controls.Add(Me.scrpt1)
+        Me.pnlMid.Controls.Add(Me.scriptControl)
         Me.pnlMid.Controls.Add(Me.chkTopmost)
         Me.pnlMid.Controls.Add(Me.btnRun)
         Me.pnlMid.Controls.Add(Me.btnClearAll)
@@ -581,7 +581,7 @@ Partial Class Form1
         Me.TopMost = True
         Me.msMain.ResumeLayout(False)
         Me.msMain.PerformLayout()
-        CType(Me.scrpt1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.scriptControl, System.ComponentModel.ISupportInitialize).EndInit()
         Me.cmsInput.ResumeLayout(False)
         Me.spltContainer.Panel1.ResumeLayout(False)
         Me.spltContainer.Panel2.ResumeLayout(False)
@@ -595,7 +595,7 @@ Partial Class Form1
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents scrpt1 As AxMSScriptControl.AxScriptControl
+    Friend WithEvents scriptControl As AxMSScriptControl.AxScriptControl
     Friend WithEvents msMain As System.Windows.Forms.MenuStrip
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OptionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
