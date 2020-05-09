@@ -10,10 +10,10 @@ Public Class Form1
 
     ' Constants
     Public Const GlobalFunctionsPath As String = "globalfunctions.js"
-    Public Const VersionNumber As String = "2.4.0"
+    Public Const VersionNumber As String = "2.4.1"
     Private Const _noprintKeyword As String = "noprint"
     Private Const _labelRegex As String = "^#[^;]+;"
-    Private Const _plainLabelRegex As String = "^#[^(" & _noprintKeyword & ")][^;]+;"
+    Private Const _plainLabelRegex As String = "^#(?!" & _noprintKeyword & ")[^;]+;"
     Private Const _noprintRegex As String = "^#" & _noprintKeyword & ";"
 
     Private ReadOnly _labelStyle As Style = New TextStyle(Brushes.RosyBrown, Nothing, FontStyle.Bold)
