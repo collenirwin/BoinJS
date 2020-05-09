@@ -1,7 +1,0 @@
-FastColoredTextBox by Pavel Torgashov
-
-Github link:
-https://github.com/PavelTorgashov/FastColoredTextBox
-
-CodeProject link:
-http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting
