@@ -1,4 +1,5 @@
-﻿Imports System.Drawing.Text
+﻿Imports System.ComponentModel
+Imports System.Drawing.Text
 Imports System.IO
 Imports FastColoredTextBoxNS
 
@@ -19,6 +20,7 @@ Public Class Form1
 
     Private _outputNumber As UInteger = 0
     Private _started As Boolean = False
+    Private _isDirty As Boolean = False
     Private _showOutputNumber As Boolean = False
 
 #End Region
@@ -57,6 +59,7 @@ Public Class Form1
     Private Sub txtInput_TextChanged(sender As Object, e As TextChangedEventArgs) Handles txtInput.TextChanged
         ' Enable/disable the run button based on whether there's text in the input box
         btnRun.Enabled = txtInput.Text.Trim() <> ""
+        _isDirty = _started
     End Sub
 
     Private Sub btnRun_Click(sender As Object, e As EventArgs) Handles btnRun.Click
@@ -314,7 +317,7 @@ Public Class Form1
 
 #Region "Files and IO"
 
-    Private Sub ofd1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ofd1.FileOk
+    Private Sub ofd1_FileOk(sender As Object, e As CancelEventArgs) Handles ofd1.FileOk
         If Not ofd1.Title.Contains("Append") Then
             If txtInput.Text.Trim() <> "" Then
                 If PromptYesOrNo("Would you like to save the current file first?") Then
@@ -357,12 +360,16 @@ Public Class Form1
             End Using
             SetPath(path)
         Catch
-            MessageBox.Show("Failed to save file to '" & path & "'.", "BoinJS - Error")
+            MessageBox.Show($"Failed to save file to '{path}'.", "BoinJS - Error")
         End Try
     End Sub
 
-    Private Sub sfd1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles sfd1.FileOk
+    Private Sub sfd1_FileOk(sender As Object, e As CancelEventArgs) Handles sfd1.FileOk
         SaveFile(sfd1.FileName)
+    End Sub
+
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        e.Cancel = _isDirty AndAlso Not PromptYesOrNo("Close without saving?")
     End Sub
 
 #End Region

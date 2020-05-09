@@ -1,12 +1,12 @@
 ﻿Imports System.IO
 Imports System.Drawing.Text
+Imports FastColoredTextBoxNS
 
 Public Class FunctionEditForm
 
 #Region "Vars"
 
-    ' text from the file
-    Dim strFileString As String
+    Private _fileText As String
 
 #End Region
 
@@ -25,17 +25,17 @@ Public Class FunctionEditForm
         End If
 
         ' keep track of what was originally in the file
-        strFileString = txtMain.Text
+        _fileText = txtMain.Text
     End Sub
 
-    Private Sub txtMain_PaintLine(sender As Object, e As FastColoredTextBoxNS.PaintLineEventArgs) Handles txtMain.PaintLine
+    Private Sub txtMain_PaintLine(sender As Object, e As PaintLineEventArgs) Handles txtMain.PaintLine
         e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias ' Smoooooth
     End Sub
 
     Private Sub frmFunctionEdit_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
 
         ' if changes were made
-        If txtMain.Text <> strFileString Then
+        If txtMain.Text <> _fileText Then
 
             ' let the user know before closing
             If Not Form1.PromptYesOrNo("Close without saving?") Then
@@ -88,7 +88,7 @@ Public Class FunctionEditForm
             Form1.AddGlobFunctions()
 
             ' set our new saved file text
-            strFileString = txtMain.Text
+            _fileText = txtMain.Text
         Catch ex As Exception
 
             ' couldn't save the file

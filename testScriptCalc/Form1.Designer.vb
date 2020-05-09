@@ -262,12 +262,12 @@ Partial Class Form1
         Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
         Me.AboutToolStripMenuItem.Text = "About"
         '
-        'scrpt1
+        'scriptControl
         '
         Me.scriptControl.Enabled = True
         Me.scriptControl.Location = New System.Drawing.Point(249, -2)
-        Me.scriptControl.Name = "scrpt1"
-        Me.scriptControl.OcxState = CType(resources.GetObject("scrpt1.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.scriptControl.Name = "scriptControl"
+        Me.scriptControl.OcxState = CType(resources.GetObject("scriptControl.OcxState"), System.Windows.Forms.AxHost.State)
         Me.scriptControl.Size = New System.Drawing.Size(38, 38)
         Me.scriptControl.TabIndex = 2
         Me.scriptControl.TabStop = False
@@ -423,7 +423,7 @@ Partial Class Form1
         Me.txtOutput.Name = "txtOutput"
         Me.txtOutput.ReadOnly = True
         Me.txtOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical
-        Me.txtOutput.Size = New System.Drawing.Size(632, 204)
+        Me.txtOutput.Size = New System.Drawing.Size(632, 202)
         Me.txtOutput.TabIndex = 2
         Me.txtOutput.Text = ""
         '
