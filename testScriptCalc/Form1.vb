@@ -10,7 +10,7 @@ Public Class Form1
 
     ' Constants
     Public Const GlobalFunctionsPath As String = "globalfunctions.js"
-    Public Const VersionNumber As String = "2.2.0"
+    Public Const VersionNumber As String = "2.30"
     Private Const _labelRegex As String = "^#[^;]+;"
 
     Private ReadOnly _labelStyle As Style = New TextStyle(Brushes.RosyBrown, Nothing, FontStyle.Bold)
@@ -344,29 +344,15 @@ Public Class Form1
 #Region "Files and IO"
 
     Private Sub ofd1_FileOk(sender As Object, e As CancelEventArgs) Handles ofd1.FileOk
-        If Not ofd1.Title.Contains("Append") Then
-            If txtInput.Text.Trim() <> "" Then
-                If PromptYesOrNo("Would you like to save the current file first?") Then
-                    If lblFilePath.Text = lblFilePath.Tag Then
-                        sfd1.ShowDialog()
-                    Else
-                        SaveFile(lblFilePath.Text)
-                    End If
-                End If
-            End If
-            txtInput.Text = ""
-        Else
-            txtInput.Text &= Environment.NewLine
+        If _isDirty AndAlso
+            Not PromptYesOrNo("You have unsaved changes. Are you sure you want to open this file?") Then
+            Return
         End If
 
         Dim path As String = ofd1.FileName
         If File.Exists(path) Then
             Try
-                Using R As StreamReader = File.OpenText(path)
-                    While R.Peek <> -1
-                        txtInput.Text &= R.ReadLine() & Environment.NewLine
-                    End While
-                End Using
+                txtInput.Text = File.ReadAllText(path)
                 SetPath(path)
             Catch
                 MessageBox.Show($"Failed to open '{path}'.", "BoinJS - Error")
@@ -377,6 +363,7 @@ Public Class Form1
     Private Sub SetPath(path As String)
         Text = $"{Tag} - {path}"
         lblFilePath.Text = path
+        _isDirty = False
     End Sub
 
     Private Sub SaveFile(path As String)
@@ -385,7 +372,6 @@ Public Class Form1
                 W.Write(txtInput.Text)
             End Using
             SetPath(path)
-            _isDirty = False
         Catch
             MessageBox.Show($"Failed to save file to '{path}'.", "BoinJS - Error")
         End Try
