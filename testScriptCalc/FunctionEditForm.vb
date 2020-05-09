@@ -85,7 +85,7 @@ Public Class FunctionEditForm
             End Using
 
             ' load the file into the interpeter
-            Form1.AddGlobFunctions()
+            Form1.AddGlobalFunctions()
 
             ' set our new saved file text
             _fileText = txtMain.Text

@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Drawing.Text
 Imports System.IO
+Imports System.Text.RegularExpressions
 Imports FastColoredTextBoxNS
 
 Public Class Form1
@@ -36,7 +37,7 @@ Public Class Form1
             ShowOutputNumberToolStripMenuItem.Checked = My.Settings.ShowOutputNum
             _showOutputNumber = My.Settings.ShowOutputNum
 
-            AddGlobFunctions()
+            AddGlobalFunctions()
 
             _started = True
         Catch
@@ -228,18 +229,22 @@ Public Class Form1
 
     Private Sub ResetScriptControl()
         scriptControl.Reset() ' Clear all code from the script control
-        AddGlobFunctions() ' Add in the global functions
+        AddGlobalFunctions() ' Add in the global functions
     End Sub
 
-    Private Function GetLineNumberOutput(line As Integer) As String
-        Return " Line " & line & ": "
+    Private Function GetOutputPrefix(text As String) As String
+        Return $" {text}: "
+    End Function
+
+    Private Function GetOutputPrefix(line As Integer) As String
+        Return $" Line {line}: "
     End Function
 
     ''' <summary>
     ''' Adds the global functions that are defined by the user in
     ''' <see cref="GlobalFunctionsPath"/> to the script control
     ''' </summary>
-    Public Sub AddGlobFunctions()
+    Public Sub AddGlobalFunctions()
         If File.Exists(GlobalFunctionsPath) Then
             Dim s As String = ""
             Using R As StreamReader = File.OpenText(GlobalFunctionsPath)
@@ -287,6 +292,16 @@ Public Class Form1
         AppendOutput(text & Environment.NewLine, color, backColor)
     End Sub
 
+    Private Function GetLineLabel(line As String) As String
+        Dim match = Regex.Match(line, "#[^;]+;")
+
+        If match.Success Then
+            Return match.Value.Substring(1, match.Value.Length - 2)
+        End If
+
+        Return Nothing
+    End Function
+
     Private Sub RunScript()
         Dim _lineNumber As Integer
         Try
@@ -297,13 +312,18 @@ Public Class Form1
                 line = line.Trim()
                 _lineNumber += 1
                 If line <> "" And Not line.StartsWith("//") Then
+                    Dim label = GetLineLabel(line)
+                    If label <> Nothing Then
+                        line = line.Substring(label.Length + 2)
+                    End If
+
                     Dim output = scriptControl.Eval(line)
-                    AppendOutput(GetLineNumberOutput(_lineNumber), _outputColor, _defaultBackColor)
+                    AppendOutput(GetOutputPrefix(If(label, $"Line {_lineNumber}")), _outputColor, _defaultBackColor)
                     AppendOutputLine(output, _passedColor, _defaultBackColor)
                 End If
             Next
         Catch ex As Exception
-            AppendOutput(GetLineNumberOutput(_lineNumber), _outputColor, _defaultBackColor)
+            AppendOutput(GetOutputPrefix(_lineNumber), _outputColor, _defaultBackColor)
             AppendOutputLine(ex.Message, Color.LightCoral, _defaultBackColor)
         End Try
 
