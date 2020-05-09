@@ -10,7 +10,10 @@ Public Class Form1
 
     ' Constants
     Public Const GlobalFunctionsPath As String = "globalfunctions.js"
-    Public Const VersionNumber As String = "2.1.0"
+    Public Const VersionNumber As String = "2.2.0"
+    Private Const _labelRegex As String = "^#[^;]+;"
+
+    Private ReadOnly _labelStyle As Style = New TextStyle(Brushes.RosyBrown, Nothing, FontStyle.Bold)
 
     ' Colors for Output
     Private ReadOnly _outputColor = Color.LightGray
@@ -61,6 +64,9 @@ Public Class Form1
         ' Enable/disable the run button based on whether there's text in the input box
         btnRun.Enabled = txtInput.Text.Trim() <> ""
         _isDirty = _started
+
+        e.ChangedRange.ClearStyle(_labelStyle)
+        e.ChangedRange.SetStyle(_labelStyle, _labelRegex, RegexOptions.Multiline)
     End Sub
 
     Private Sub btnRun_Click(sender As Object, e As EventArgs) Handles btnRun.Click
@@ -293,7 +299,7 @@ Public Class Form1
     End Sub
 
     Private Function GetLineLabel(line As String) As String
-        Dim match = Regex.Match(line, "#[^;]+;")
+        Dim match = Regex.Match(line, _labelRegex)
 
         If match.Success Then
             Return match.Value.Substring(1, match.Value.Length - 2)
@@ -379,6 +385,7 @@ Public Class Form1
                 W.Write(txtInput.Text)
             End Using
             SetPath(path)
+            _isDirty = False
         Catch
             MessageBox.Show($"Failed to save file to '{path}'.", "BoinJS - Error")
         End Try
