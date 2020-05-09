@@ -10,7 +10,7 @@ Public Class Form1
 
     ' Constants
     Public Const GlobalFunctionsPath As String = "globalfunctions.js"
-    Public Const VersionNumber As String = "2.30"
+    Public Const VersionNumber As String = "2.3.0"
     Private Const _labelRegex As String = "^#[^;]+;"
 
     Private ReadOnly _labelStyle As Style = New TextStyle(Brushes.RosyBrown, Nothing, FontStyle.Bold)
