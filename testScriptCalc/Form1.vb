@@ -10,10 +10,14 @@ Public Class Form1
 
     ' Constants
     Public Const GlobalFunctionsPath As String = "globalfunctions.js"
-    Public Const VersionNumber As String = "2.3.0"
+    Public Const VersionNumber As String = "2.4.0"
+    Private Const _noprintKeyword As String = "noprint"
     Private Const _labelRegex As String = "^#[^;]+;"
+    Private Const _plainLabelRegex As String = "^#[^(" & _noprintKeyword & ")][^;]+;"
+    Private Const _noprintRegex As String = "^#" & _noprintKeyword & ";"
 
     Private ReadOnly _labelStyle As Style = New TextStyle(Brushes.RosyBrown, Nothing, FontStyle.Bold)
+    Private ReadOnly _noprintStyle As Style = New TextStyle(Brushes.LightCoral, Nothing, FontStyle.Bold)
 
     ' Colors for Output
     Private ReadOnly _outputColor = Color.LightGray
@@ -41,7 +45,6 @@ Public Class Form1
             _showOutputNumber = My.Settings.ShowOutputNum
 
             AddGlobalFunctions()
-
             _started = True
         Catch
             MessageBox.Show("Cannot find settings file or settings file is corrupt. Some settings may be off.", "BoinJS")
@@ -66,7 +69,9 @@ Public Class Form1
         _isDirty = _started
 
         e.ChangedRange.ClearStyle(_labelStyle)
-        e.ChangedRange.SetStyle(_labelStyle, _labelRegex, RegexOptions.Multiline)
+        e.ChangedRange.SetStyle(_labelStyle, _plainLabelRegex, RegexOptions.Multiline)
+        e.ChangedRange.ClearStyle(_noprintStyle)
+        e.ChangedRange.SetStyle(_noprintStyle, _noprintRegex, RegexOptions.Multiline)
     End Sub
 
     Private Sub btnRun_Click(sender As Object, e As EventArgs) Handles btnRun.Click
@@ -324,8 +329,11 @@ Public Class Form1
                     End If
 
                     Dim output = scriptControl.Eval(line)
-                    AppendOutput(GetOutputPrefix(If(label, $"Line {_lineNumber}")), _outputColor, _defaultBackColor)
-                    AppendOutputLine(output, _passedColor, _defaultBackColor)
+
+                    If label <> _noprintKeyword Then
+                        AppendOutput(GetOutputPrefix(If(label, $"Line {_lineNumber}")), _outputColor, _defaultBackColor)
+                        AppendOutputLine(output, _passedColor, _defaultBackColor)
+                    End If
                 End If
             Next
         Catch ex As Exception
