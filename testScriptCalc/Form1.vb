@@ -10,7 +10,7 @@ Public Class Form1
 
     ' Constants
     Public Const GlobalFunctionsPath As String = "globalfunctions.js"
-    Public Const VersionNumber As String = "2.0.3"
+    Public Const VersionNumber As String = "2.1.0"
 
     ' Colors for Output
     Private ReadOnly _outputColor = Color.LightGray
